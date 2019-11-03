@@ -1,6 +1,4 @@
-const express = require('express')
-const bodyParser = require('body-parser')
-const app = express()
+const router = require('express').Router()
 
 let persons = [
   {
@@ -16,13 +14,11 @@ let persons = [
 ]
 const dataIdIsEqual = id => data => Number(data.id) === Number(id)
 
-app.use(bodyParser.urlencoded())
-
-app.get('/api/users', (req, res) => {
+router.get('/users', (req, res) => {
   res.status(200).json(persons)
 })
 
-app.post('/api/users', (req, res) => {
+router.post('/users', (req, res) => {
   console.log(req.body)
   const { name, age } = req.body
   const id = persons.length + 1
@@ -38,7 +34,7 @@ app.post('/api/users', (req, res) => {
   })
 })
 
-app.get('/api/users/:id', (req, res) => {
+router.get('/users/:id', (req, res) => {
   const id = req.params.id
   const filteredPerson = persons.filter(dataIdIsEqual(id))[0]
   if (filteredPerson) {
@@ -50,7 +46,7 @@ app.get('/api/users/:id', (req, res) => {
   })
 })
 
-app.delete('/api/users/:id', (req, res) => {
+router.delete('/users/:id', (req, res) => {
   const id = req.params.id
   const personIndex = persons.findIndex(dataIdIsEqual(id))
   persons = [...persons.slice(0, personIndex), ...persons.slice(personIndex + 1)]
@@ -60,7 +56,7 @@ app.delete('/api/users/:id', (req, res) => {
   })
 })
 
-app.put('/api/users/:id', (req, res) => {
+router.put('/users/:id', (req, res) => {
   const id = req.params.id
   const personIndex = persons.findIndex(dataIdIsEqual(id))
 
@@ -79,6 +75,4 @@ app.put('/api/users/:id', (req, res) => {
   })
 })
 
-app.listen(3001, () => {
-  console.log('app run on http://localhost:3001')
-})
+module.exports = router
