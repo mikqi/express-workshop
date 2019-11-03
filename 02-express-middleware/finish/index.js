@@ -13,4 +13,16 @@ app.use((request, response, next) => {
   response.end('hello world')
 })
 
+app.get('/home', (req, res, next) => {
+  const isLogin = req.query.login
+  if (isLogin === 'true') {
+    next()
+  }
+
+  res.redirect('/')
+}, (req, res, next) => {
+  res.end('ini home')
+})
+
+
 http.createServer(app).listen(1234, () => console.log('app listen on port 1234'))
