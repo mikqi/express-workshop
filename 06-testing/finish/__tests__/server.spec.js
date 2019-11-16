@@ -76,3 +76,21 @@ describe('API: Users', () => {
     expect(response.body).toEqual({ age: 12, name: 'new name from test' })
   })
 })
+
+describe('Test Views', () => {
+  it('GET "/": Should contain hello world in homepage', async () => {
+    const response = await request(app)
+      .get('/')
+    
+    expect(response.type).toEqual('text/html')
+    expect(response.text).toContain('Hello World')
+  })
+
+  it('GET "/user/:name": Should contain given name in html', async () => {
+    const response = await request(app)
+      .get('/user/testjest')
+    
+    expect(response.type).toEqual('text/html')
+    expect(response.text).toContain('testjest')
+  })
+})
