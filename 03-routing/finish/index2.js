@@ -19,6 +19,7 @@ app.use('/api', routeAPI)
 
 // Can handle req.body form-data
 app.post('/upload', upload.any(), (req, res) => {
+  console.log(req.body)
   res.json({
     image: req.files[0]
   })
